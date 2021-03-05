@@ -2,8 +2,8 @@ import * as AWS from '@aws-sdk/client-redshift-data';
 import pRetry from 'p-retry';
 
 const { RedshiftDataClient,
-    GetStatementResultCommand,
-    ExecuteStatementCommand }  = AWS;
+  GetStatementResultCommand,
+  ExecuteStatementCommand } = AWS;
 
 const client = new RedshiftDataClient({ region: 'us-east-1'});
 const ExecuteStatementParams = { 'ClusterIdentifier': 'redshift-cluster-1',
@@ -14,15 +14,15 @@ const ExecuteCommand = new ExecuteStatementCommand(ExecuteStatementParams);
 
 export const handler = async(event, context) => {
   try {
-    const {Id} = await client.send(ExecuteCommand);
+    const { Id } = await client.send(ExecuteCommand);
     const GetResultParams = {Id};
     const GetStatementCommand = new GetStatementResultCommand(GetResultParams);
     const data = await pRetry(() =>
       retryFun(client, GetStatementCommand), retryConfig);
-      return {
+    return {
       statusCode: 200,
       body: data.Records
-    }
+    };
 
   } catch (error) {
     console.log('Error while retrieving the data from Redshift', error);
@@ -48,4 +48,3 @@ const retryFun = async(client, GetStatementCommand) => {
     throw e;
   }
 };
-  

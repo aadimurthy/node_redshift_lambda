@@ -4,9 +4,6 @@ module.exports = {
     node: true,
     es6: true
   },
-  extends: [
-    "prettier"
-  ],
   parser: 'babel-eslint',
   parserOptions: {
     'sourceType': 'module',
