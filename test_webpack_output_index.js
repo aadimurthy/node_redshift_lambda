@@ -3,5 +3,6 @@
 
 const index =  require('./dist/index.js');
 (async() => {
-  index.handler();
+ const response = await index.handler();
+ console.log('Response is: ', JSON.stringify(response));
 })();
